@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid">
+            <h1 class="mt-4">Home</h1>
+            {% if not caricato %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        Prima di poter iniziare ad effettuare delle query sui dati è necessario caricare il dataset,
+                        seleziona il numero di chunk che desideri impiegare dal file json. Il dataset, una volta ottenuto,
+                        verrà prima sottoposto ad una fase di preprocessing e poi caricato.
+                    </div>
+                    <div class="card-footer text-muted">
+                        La dimensione del dataset caricato può differire da quella
+                        attesa per via del preprocessing effettuato, di norma: 1 chunk = 100 elementi
+                    </div>
+                </div>
+                <form class="form-inline" action="/flickranalytics/" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input name="chunks" class="form-control" type="number" placeholder="chunks..." value=""/>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+            {% if caricato %}
+                <div class="alert alert-success" role="alert">
+                    Dataset caricato con successo! Numero di righe: {{ righe }}; Numero di colonne: {{ colonne }}
+                </div>
+                <a class="btn btn-danger btn-block mb-4" type="button" href="/clear">Cancella Dataset</a>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Esempio Dataset
+                    </div>
+                </div>
+                <div class="table">
+                    <table class="thead-dark" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>datePosted</th>
+                                <th>dateTaken</th>
+                                <th>description</th>
+                                <th>familyFlag</th>
+                                <th>friendFlag</th>
+                                <th>hasPeople</th>
+                                <th>lastUpdate</th>
+                                <th>media</th>
+                                <th>owner</th>
+                                <th>placeId</th>
+                                <th>publicFlag</th>
+                                <th>tags</th>
+                                <th>title</th>
+                                <th>url</th>
+                                <th>views</th>
+                                <th>latitude</th>
+                                <th>longitude</th>
+                                <th>accuracy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for index, row in iter %}
+                            <tr>
+                                <td>{{ row.datePosted }}</td>
+                                <td>{{ row.dateTaken }}</td>
+                                <td>{{ row.description }}</td>
+                                <td>{{ row.familyFlag }}</td>
+                                <td>{{ row.friendFlag }}</td>
+                                <td>{{ row.hasPeople }}</td>
+                                <td>{{ row.lastUpdate }}</td>
+                                <td>{{ row.media }}</td>
+                                <td>{{ row.owner }}</td>
+                                <td>{{ row.placeId }}</td>
+                                <td>{{ row.publicFlag }}</td>
+                                <td>{{ row.tags }}</td>
+                                <td>{{ row.title }}</td>
+                                <td>{{ row.url }}</td>
+                                <td>{{ row.views }}</td>
+                                <td>{{ row.latitude }}</td>
+                                <td>{{ row.longitude }}</td>
+                                <td>{{ row.accuracy }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

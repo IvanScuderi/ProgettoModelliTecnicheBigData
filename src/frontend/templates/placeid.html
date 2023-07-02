@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid">
+            <h1 class="mt-4">GEOTAG: PlaceId</h1>
+            {% if completato %}
+            <div class="alert alert-success" role="alert">
+                    Query completata con successo per il valore: Numero 'placeId' = {{ pId }} ! Per vedere il risultato controlla tra le schede aperte del tuo browser web...
+            </div>
+            {% endif %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    La query permette di andare a visualizzare su mappa la zona corrispondente ai diversi 'placeId' impiegati nei post sotto forma di poligono;
+                    al fine del calcolo degli estremi si vanno a ricercare i valori maggiori e minori di latitudine e longitudine dei vari elementi raggruppandoli
+                    sotto tale attributo, per poi effettuarne le varie combinazioni.
+                </div>
+            </div>
+            <form class="form-inline" action="/placeid/" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="numeroPlace">Numero di 'placeId' da visualizzare: </label>
+                    <input id="numeroPlace" name="nP" class="form-control ml-2" type="number" placeholder="numero placeId" value=""/>
+                </div>
+                <button class="btn btn-primary" type="submit">Esegui <i class="fas fa-wrench"></i></button>
+                <small id="numeroPlaceHelp" class="form-text text-muted ml-5">numero di 'placeId' differenti: {{ nPlace }}</small>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}

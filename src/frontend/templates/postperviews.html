@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div id="layoutSidenav_content">
+        <div class="container-fluid">
+            <h1 class="mt-4">GEOTAG: Post per Views</h1>
+            {% if completato %}
+            <div class="alert alert-success" role="alert">
+                    Query completata con successo per i valori: Post da Plottare = {{ post }} , Media = {{ media }} ! Per vedere il risultato controlla tra le schede aperte del tuo browser web...
+            </div>
+            {% endif %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    La query permette di andare a visualizzare su mappa la posizione del numero specificato di post che risultano avere più visualizzazioni
+                    , questo potendo anche scegliere se andare a considerare post con contenuto multimediale solo foto,
+                    solo video o entrambe le tipologie di contenuti.
+                </div>
+            </div>
+            <form class="form-inline" action="/postperviews/" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="post">Numero dei post con maggiori visualizzazioni da plottare: </label>
+                    <input id="post" name="post" class="form-control ml-2" type="number" value=""/>
+                </div>
+                <div class="form-row ml-5">
+                    <div class="col-auto">
+                        <label for="media">Tipologia di media:</label>
+                        <select class="custom-select mr-sm-2" id="media" name="media">
+                            <option selected>Foto e Video</option>
+                            <option value="foto">Foto</option>
+                            <option value="video">Video</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary ml-5" type="submit">Esegui <i class="fas fa-wrench"></i></button>
+            </form>
+            <small id="help1" class="form-text text-muted ml-5">numero di post aventi foto come contenuto: {{ foto }}</small>
+            <small id="help2" class="form-text text-muted ml-5">numero di post aventi video come contenuto: {{ video }}</small>
+        </div>
+    </main>
+</div>
+{% endblock %}
